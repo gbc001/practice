@@ -1,0 +1,33 @@
+*** Settings ***
+Documentation  demo resource
+
+
+*** Variables ***
+${var1}     value
+@{list1}    a   b   c   ${var1}
+&{dict1}    key1=sf    key2=${list1}
+
+
+*** Keywords ***
+Calculate and Check Equals
+    [Arguments]  ${expression}=3+3  ${expected}=${6}
+    ${res}    Evaluate    ${expression}
+    log to console    expression = ${expression}
+    log to console    result = ${expected}
+    should be equal  ${res}    ${expected}
+
+Varargs keyword
+    [Arguments]  @{args}
+    log to console  - - - - - - - -
+    : FOR    ${item}    IN    @{args}
+    \    log to console  ${item}
+
+Kwargs keyword
+    [Arguments]  &{Kwargs}
+    log to console  - - - - - - - -
+    : FOR    ${item}    IN    @{kwargs.items()}
+    \    log to console  ${item}
+
+Calculate "${expression}" and Check Equals "${expected}"
+    Calculate and Check Equals    ${expression}    ${expected}
+
